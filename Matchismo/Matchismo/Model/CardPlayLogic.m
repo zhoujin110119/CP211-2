@@ -2,8 +2,8 @@
 //  CardPlayLogic.m
 //  Matchismo
 //
-//  Created by Neo on 8/5/14.
-//  Copyright (c) 2014 Paradigm X. All rights reserved.
+//  Created by apple on 14-8-5.
+//  Copyright (c) 2014年 Paradigm X. All rights reserved.
 //
 
 #import "CardPlayLogic.h"
@@ -34,7 +34,7 @@
 }
 -(instancetype) init:(NSUInteger) count{
 	self = [super init];
-	
+    
 	if(self){
 		for(int i = 0; i < count; i++){
 			Card *card = [self.deck drawRandomCard];
@@ -45,15 +45,10 @@
 }
 
 -(void)selectCard:(NSUInteger) index{
-	Card *card = [self cardAtIndex:index];
-	
-
+//	Card *card = [self cardAtIndex:index];
+    
+    
 }
 
-
-
-
-
-
-
 @end
+

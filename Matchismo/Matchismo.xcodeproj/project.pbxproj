@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1815464C1990FC10009173CC /* CardPlayLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1815464B1990FC10009173CC /* CardPlayLogic.m */; };
 		B5D22E10198A180D008A8853 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D22E0F198A180D008A8853 /* Foundation.framework */; };
 		B5D22E12198A180D008A8853 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D22E11198A180D008A8853 /* CoreGraphics.framework */; };
 		B5D22E14198A180D008A8853 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D22E13198A180D008A8853 /* UIKit.framework */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1815464A1990FC10009173CC /* CardPlayLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardPlayLogic.h; sourceTree = "<group>"; };
+		1815464B1990FC10009173CC /* CardPlayLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardPlayLogic.m; sourceTree = "<group>"; };
 		B5D22E0C198A180D008A8853 /* Matchismo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matchismo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D22E0F198A180D008A8853 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B5D22E11198A180D008A8853 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -176,6 +179,8 @@
 				B5D22E57198A18F6008A8853 /* PlayingCard.m */,
 				B5D22E58198A18F6008A8853 /* PlayingCardDeck.h */,
 				B5D22E59198A18F6008A8853 /* PlayingCardDeck.m */,
+				1815464A1990FC10009173CC /* CardPlayLogic.h */,
+				1815464B1990FC10009173CC /* CardPlayLogic.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1815464C1990FC10009173CC /* CardPlayLogic.m in Sources */,
 				B5D22E5C198A18F6008A8853 /* PlayingCard.m in Sources */,
 				B5D22E5B198A18F6008A8853 /* Deck.m in Sources */,
 				B5D22E20198A180D008A8853 /* CardGameAppDelegate.m in Sources */,
@@ -489,6 +495,7 @@
 				B5D22E40198A180D008A8853 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B5D22E41198A180D008A8853 /* Build configuration list for PBXNativeTarget "MatchismoTests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +504,7 @@
 				B5D22E43198A180D008A8853 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
