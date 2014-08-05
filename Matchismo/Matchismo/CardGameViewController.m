@@ -17,16 +17,7 @@
 @end
 
 @implementation CardGameViewController
-- (PlayingCardDeck *)createDeck
-{
-    return [[PlayingCardDeck alloc] init];
-}
 
-- (Deck *)deck
-{
-    if (! _deck) _deck = [self createDeck];
-    return _deck;
-}
 
 - (void) setFlipCount:(int)flipCount{
     _flipCount = flipCount;
