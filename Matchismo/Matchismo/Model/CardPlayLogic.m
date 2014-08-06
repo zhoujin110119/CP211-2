@@ -44,9 +44,35 @@
 	return self;
 }
 
+-(Card *)getCard:(NSUInteger)index{
+	return self.cards[index];
+}
+
 -(void)selectCard:(NSUInteger) index{
-//	Card *card = [self cardAtIndex:index];
-    
+	Card *card = self.cards[index];
+    if(card.isMatched){
+		return;
+	}else if(card.isChosen){
+		card.chosen = NO;
+		return;
+	}else{
+		for(Card *tmpCard in self.cards){
+			if(tmpCard.isChosen && !tmpCard.isMatched){
+				int cardScore = [card match:@[tmpCard]];
+				if(cardScore > 0){
+					self.score += cardScore;
+					tmpCard.matched = YES;
+					card.matched = YES;
+				}else{
+					self.score--;
+					tmpCard.chosen = NO;
+				}
+				break;
+			}
+		}
+		card.chosen = YES;
+	
+	}
     
 }
 
