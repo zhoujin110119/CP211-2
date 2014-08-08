@@ -76,5 +76,43 @@
     
 }
 
+
+-(void)reset{
+    _deck = [self createDeck];
+    
+    NSUInteger cardNum = [self.cards count];
+    [self.cards removeAllObjects];
+    for(int i = 0; i < cardNum; i++){
+        Card *card = [self.deck drawRandomCard];
+        [self.cards addObject:card];
+    }
+    self.score = 0;
+    
+}
+
+-(BOOL) isGameEnd{
+    NSMutableArray *noMatchedCards = [[NSMutableArray alloc] init];
+    for(Card *tmpCard in self.cards){
+        if(!tmpCard.isMatched){
+            [noMatchedCards addObject:tmpCard];
+        }
+    }
+    if([noMatchedCards count] > 2){
+        return NO;
+    }else if([noMatchedCards count] == 2){
+        int tmpScore = [[noMatchedCards firstObject] match:@[[noMatchedCards lastObject]]];
+        if (tmpScore > 0) {
+            return NO;
+        }else{
+            return YES;
+        }
+    
+    }else{
+        return YES;
+    }
+}
+
+
+
 @end
 
