@@ -14,7 +14,7 @@
 -(instancetype) init:(NSUInteger) count;
 
 -(void)selectCard:(NSUInteger) index;
-
+-(Card *) getCard:(NSUInteger) index;
 @property (nonatomic, readonly) NSInteger score;
 
 @end

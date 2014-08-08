@@ -15,14 +15,17 @@
 @property (nonatomic) int flipCount;
 @property (strong,nonatomic) Deck *deck;
 @property (strong,nonatomic) CardPlayLogic *playLogic;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+
 @end
 
 @implementation CardGameViewController
 
 - (CardPlayLogic *)playLogic{
-	if(_playLogic) _playLogic = [[CardPlayLogic alloc] init:self.[cardButtons count]];
+	if(!_playLogic) _playLogic = [[CardPlayLogic alloc] init:[self.cardButtons count]];
 	return _playLogic;
 }
+
 
 
 
@@ -34,8 +37,9 @@
 		Card *card = [self.playLogic getCard:cardButtonIndex];
 		[cardButton setTitle:[self getCardTitle:card] forState:UIControlStateNormal];
 		[cardButton setBackgroundImage:[self getCardBackgroundImage:card] forState:UIControlStateNormal];
-		cardButton.enabled = !card.isMatched;
-		self.flipsLable.text = [NSString stringWithFormat:@"Score: %d", self.playLogic.score];
+        
+        cardButton.enabled = !card.isMatched;
+		self.flipsLable.text = [NSString stringWithFormat:@"Score: %ld", self.playLogic.score];
 	}
     
 }
@@ -50,9 +54,9 @@
 
 -(UIImage *)getCardBackgroundImage:(Card *)card{
 	if(card.isChosen){
-		return [UIImage imageNamed:@"cardfront"];
+		return [UIImage imageNamed:@"CardFront"];
 	}else{
-		return [UIImage imageNamed:@"cardback"];
+		return [UIImage imageNamed:@"CardBack"];
 	}
 }
 
