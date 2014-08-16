@@ -63,17 +63,9 @@
     return _plays;
 }
 
-#pragma mark - Methods
 
-/**
- The "brain" of the game.
- 
- This is where the actual game rules are defined.
- Stores que result of each play to describe what has been going on in the game.
- */
 - (void)flipCardAtIndex:(NSUInteger)index
 {
-   // PlayResult *playResult;
     int playScore = 0;
     Card *card = [self cardAtIndex:index];
     
@@ -84,14 +76,11 @@
     
     if (!card.matched) {
         if (!card.chosen) {
-            // Play the game
             NSArray *cardsInPlay = [self.cards objectsAtIndexes:[self.cards indexesOfObjectsPassingTest:isCardInPlay]];
-            
-            // Check for a match if enough cards are flipped
+
             if ([cardsInPlay count] == self.numCardsToMatch - 1) {
                 int cardScore = [card match:cardsInPlay];
                 if (cardScore > 0) {
-                    // Cards match
                     card.matched = YES;
                     [cardsInPlay enumerateObjectsUsingBlock:^(Card * obj, NSUInteger idx, BOOL *stop) {
                         obj.matched = YES;
@@ -99,7 +88,6 @@
                     playScore += cardScore * self.weights.matchBonus * ((int)self.numCardsToMatch - 1);
 
                 } else {
-                    // Cards don't match
                     [cardsInPlay enumerateObjectsUsingBlock:^(Card * obj, NSUInteger idx, BOOL *stop) {
                         obj.chosen = NO;
                     }];
@@ -111,7 +99,6 @@
 
                 }
             }
-            // Score penalty for flipping a card
             playScore += self.weights.flipCost;
 
         }

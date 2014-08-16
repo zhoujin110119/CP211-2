@@ -10,12 +10,11 @@
 #import "CardPlayLogic.h"
 #import "SetCard.h"
 @interface CardGameViewController ()
-// Make it visible from the subclass?
+
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
 @property (weak, nonatomic) IBOutlet UILabel *scoreDisplay;
-//@property (weak, nonatomic) UILabel *scoreDisplay;
-//@property (weak, nonatomic) UILabel *messageDisplay;
+
 @end
 
 @implementation SetGameViewController
@@ -45,12 +44,12 @@
         case SetCardColorGreen:
             cardColor = [UIColor greenColor];
             break;
-        case SetCardColorRed:   // fall through
+        case SetCardColorRed:
         default:
             cardColor = [UIColor redColor];
             break;
     }
-    // shading
+
     switch (card.shading) {
         case SetCardShadingOpen:
             fillColor = strokeColor = cardColor;
@@ -61,13 +60,13 @@
             strokeColor = cardColor;
             strokeWidth = @-5;
             break;
-        case SetCardShadingSolid:  // fall through
+        case SetCardShadingSolid:
         default:
             fillColor = strokeColor = cardColor;
             strokeWidth = @0;
             break;
     }
-    // compose
+  
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0],
                                  NSForegroundColorAttributeName: fillColor,
                                  NSStrokeColorAttributeName: strokeColor,
@@ -84,7 +83,7 @@
         SetCard *card = (SetCard *)[self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
         [cardButton setAttributedTitle:[self attributedStringForCard:card] forState:UIControlStateNormal];
         
-        // Style the button
+
         if (card.isMatched) {
             cardButton.alpha = 0.0;
             [cardButton setBackgroundColor:[UIColor lightGrayColor]];
@@ -95,12 +94,11 @@
             cardButton.alpha = 1.0;
             [cardButton setBackgroundColor:[UIColor clearColor]];
         }
-        
-        // Set button state
+
         cardButton.selected = card.isChosen;
         cardButton.enabled = !card.isMatched;
     }
-    // Update scoreboard
+
     self.scoreDisplay.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 
 }

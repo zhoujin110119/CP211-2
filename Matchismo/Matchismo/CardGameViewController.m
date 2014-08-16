@@ -13,12 +13,8 @@
 @interface CardGameViewController ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-//@property (weak, nonatomic) IBOutlet UILabel *flipsDisplay;
+
 @property (weak, nonatomic) IBOutlet UILabel *scoreDisplay;
-//@property (weak, nonatomic) IBOutlet UILabel *messageDisplay;
-//@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSelector;
-//@property (weak, nonatomic) IBOutlet UISlider *messageHistory;
-//@property (nonatomic) int flipsCount;
 @property (strong, nonatomic) CardPlayLogic *game;
 @end
 

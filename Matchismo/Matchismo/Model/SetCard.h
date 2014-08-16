@@ -36,19 +36,16 @@ typedef NS_ENUM(NSInteger, SetCardColorType) {
                color:(SetCardColorType)color
               symbol:(NSString *)symbol;
 
-/** number = one, two, or three. */
 @property (readonly, nonatomic) NSUInteger number;
 
-/** symbol = diamond, squiggle, oval. */
+
 @property (readonly, strong, nonatomic) NSString *symbol;
 
-/** shading = solid, striped, or open. */
+
 @property (readonly, nonatomic) SetCardShadingType shading;
 
-/** color = red, green, or purple. */
 @property (readonly, nonatomic) SetCardColorType color;
 
-/** List of NSString symbols allowed for the Set cards. */
 + (NSArray *)validSymbols;
 
 
