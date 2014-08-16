@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CardGameViewController : UIViewController
-
+#import "CardPlayLogic.h"
+@interface CardGameViewController : UIViewController{
+    @protected CardPlayLogic *_game;
+}
 @end

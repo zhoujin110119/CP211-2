@@ -9,14 +9,33 @@
 #import <Foundation/Foundation.h>
 #import "Deck.h"
 #import "Card.h"
+
+
+typedef struct {
+    NSInteger flipCost;
+    NSInteger mismatchPenalty;
+    NSInteger matchBonus;
+} ScoringDefinitions;
+
 @interface CardPlayLogic : NSObject
 
--(instancetype) init:(NSUInteger) count;
+/** Designated Initializer */
+- (id)initWithCardCount:(NSUInteger)count
+               fromDeck:(Deck *)deck
+             matchCount:(NSUInteger)numCards
+         bonusPenalties:(ScoringDefinitions)weights;
 
--(void)selectCard:(NSUInteger) index;
--(Card *) getCard:(NSUInteger) index;
--(void) reset;
--(BOOL) isGameEnd;
-@property (nonatomic, readonly) NSInteger score;
+- (id)initWithCardCount:(NSUInteger)count
+               fromDeck:(Deck *)deck;
+
+@property (readonly, nonatomic) int score;
+@property (nonatomic) NSUInteger numCardsToMatch;
+
+
+- (NSArray *)lastPlays;
+
+- (void)flipCardAtIndex:(NSUInteger)index;
+
+- (Card *)cardAtIndex:(NSUInteger)index;
 
 @end

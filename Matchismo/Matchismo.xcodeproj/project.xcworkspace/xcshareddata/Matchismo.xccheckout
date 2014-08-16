@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>519E43EB-1F55-4650-8C8B-35BA75C930A4</string>
+	<string>30C2E784-0D45-454E-9301-55460CB9165A</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Matchismo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E42F0E35-3652-468D-8579-21FEB87712A7</key>
-		<string>https://github.com/zhoujin110119/CP211-2.git</string>
+		<key>799A6F8D-70DB-447E-A720-37B5E16D9448</key>
+		<string>https://github.com/midalist/Learn_CS193P</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Matchismo/Matchismo.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E42F0E35-3652-468D-8579-21FEB87712A7</key>
+		<key>799A6F8D-70DB-447E-A720-37B5E16D9448</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/zhoujin110119/CP211-2.git</string>
+	<string>https://github.com/midalist/Learn_CS193P</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E42F0E35-3652-468D-8579-21FEB87712A7</string>
+	<string>799A6F8D-70DB-447E-A720-37B5E16D9448</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E42F0E35-3652-468D-8579-21FEB87712A7</string>
+			<string>799A6F8D-70DB-447E-A720-37B5E16D9448</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CP211-2</string>
 		</dict>

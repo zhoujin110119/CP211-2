@@ -11,50 +11,63 @@
 #import "CardPlayLogic.h"
 
 @interface CardGameViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *flipsLable;
-@property (nonatomic) int flipCount;
-@property (strong,nonatomic) Deck *deck;
-@property (strong,nonatomic) CardPlayLogic *playLogic;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+//@property (weak, nonatomic) IBOutlet UILabel *flipsDisplay;
+@property (weak, nonatomic) IBOutlet UILabel *scoreDisplay;
+//@property (weak, nonatomic) IBOutlet UILabel *messageDisplay;
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSelector;
+//@property (weak, nonatomic) IBOutlet UISlider *messageHistory;
+//@property (nonatomic) int flipsCount;
+@property (strong, nonatomic) CardPlayLogic *game;
 @end
 
 @implementation CardGameViewController
 
-- (CardPlayLogic *)playLogic{
-	if(!_playLogic) _playLogic = [[CardPlayLogic alloc] init:[self.cardButtons count]];
-	return _playLogic;
+
+
+- (CardPlayLogic *)game
+{
+    if (!_game) _game = [[CardPlayLogic alloc] initWithCardCount:[self.cardButtons count]
+                                                      fromDeck:[[PlayingCardDeck alloc] init]
+                                                    matchCount:2
+                                                bonusPenalties:(ScoringDefinitions){-1, -2, 4}];
+    return _game;
 }
 
-- (IBAction)resetGame:(UIButton *)sender {
-    [self.playLogic reset];
+- (void)setCardButtons:(NSArray *)cardButtons
+{
+    _cardButtons = cardButtons;
     [self updateUI];
 }
 
+- (void)updateUI
+{
+    for (UIButton *cardButton in self.cardButtons) {
+        Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
 
+        [cardButton setTitle:[self getCardTitle:card] forState:UIControlStateNormal];
 
-- (IBAction)touchCardButton:(UIButton *)sender {
-	NSUInteger chosenCardIndex = [self.cardButtons indexOfObject:sender];
-	[self.playLogic selectCard:chosenCardIndex];
-	[self updateUI];
-    if ([self.playLogic isGameEnd]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束" message:[NSString stringWithFormat:@"最终得分为: %ld", self.playLogic.score] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-        [alert show];
-        [self.playLogic reset];
-        [self updateUI];
+        [cardButton setBackgroundImage:[self getCardBackgroundImage:card] forState:UIControlStateNormal];
+
+        cardButton.enabled = !card.isMatched;
+
     }
+    self.scoreDisplay.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+
 }
 
--(void) updateUI{
-    for(UIButton *cardButton in self.cardButtons){
-		NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
-		Card *card = [self.playLogic getCard:cardButtonIndex];
-		[cardButton setTitle:[self getCardTitle:card] forState:UIControlStateNormal];
-		[cardButton setBackgroundImage:[self getCardBackgroundImage:card] forState:UIControlStateNormal];
-        
-        cardButton.enabled = !card.isMatched;
-		self.flipsLable.text = [NSString stringWithFormat:@"Score: %ld", self.playLogic.score];
-	}
+
+- (IBAction)flipCard:(UIButton *)sender
+{
+    [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
+    [self updateUI];
+
+}
+
+- (IBAction)dealGame {
+    self.game = nil;
+    [self updateUI];
 
 }
 

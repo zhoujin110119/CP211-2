@@ -10,107 +10,133 @@
 #import "PlayingCardDeck.h"
 
 @interface CardPlayLogic()
-@property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, strong) NSMutableArray *cards;
-@property (nonatomic, strong) Deck *deck;
+
+@property (readwrite, nonatomic) int score;
+@property (nonatomic) NSMutableArray *plays;
+@property (nonatomic) NSMutableArray *cards;
+@property (nonatomic, readonly) ScoringDefinitions weights;
+
 @end
 
 @implementation CardPlayLogic
 
-- (PlayingCardDeck *)createDeck
+- (id)initWithCardCount:(NSUInteger)count
+               fromDeck:(Deck *)deck
+             matchCount:(NSUInteger)numCards
+         bonusPenalties:(ScoringDefinitions)weights
 {
-    return [[PlayingCardDeck alloc] init];
+    self = [super init];
+    if (self) {
+        for (NSUInteger i = 0; i < count; i++) {
+            Card *card = [deck drawRandomCard];
+            if (!card) {
+                self = nil;
+                return self;
+            }
+            self.cards[i] = card;
+        }
+        self.numCardsToMatch = numCards;
+        _weights = weights;
+    }
+    return self;
 }
 
-- (Deck *)deck
+- (id)initWithCardCount:(NSUInteger)count fromDeck:(Deck *)deck
 {
-    if (! _deck) _deck = [self createDeck];
-    return _deck;
+    return [self initWithCardCount:count
+                          fromDeck:deck
+                        matchCount:2
+                    bonusPenalties:(ScoringDefinitions){-1, -1, 2}];
 }
 
--(NSMutableArray *) cards{
-	if(!_cards) _cards = [[NSMutableArray alloc] init];
-	return _cards;
+#pragma mark - Properties
+
+- (NSMutableArray *)cards
+{
+    if (!_cards) _cards = [[NSMutableArray alloc] init];
+    return _cards;
 }
--(instancetype) init:(NSUInteger) count{
-	self = [super init];
+
+- (NSMutableArray *)plays
+{
+    if (!_plays) _plays = [[NSMutableArray alloc] init];
+    return _plays;
+}
+
+#pragma mark - Methods
+
+/**
+ The "brain" of the game.
+ 
+ This is where the actual game rules are defined.
+ Stores que result of each play to describe what has been going on in the game.
+ */
+- (void)flipCardAtIndex:(NSUInteger)index
+{
+   // PlayResult *playResult;
+    int playScore = 0;
+    Card *card = [self cardAtIndex:index];
     
-	if(self){
-		for(int i = 0; i < count; i++){
-			Card *card = [self.deck drawRandomCard];
-			[self.cards addObject:card];
-		}
-	}
-	return self;
-}
+    BOOL(^isCardInPlay)(id, NSUInteger, BOOL*) = ^(id obj, NSUInteger idx, BOOL *stop) {
+        return (BOOL)(![(Card *)obj isMatched] && [(Card *)obj isChosen]);
+    };
 
--(Card *)getCard:(NSUInteger)index{
-	return self.cards[index];
-}
-
--(void)selectCard:(NSUInteger) index{
-	Card *card = self.cards[index];
-    if(card.isMatched){
-		return;
-	}else if(card.isChosen){
-		card.chosen = NO;
-		return;
-	}else{
-		for(Card *tmpCard in self.cards){
-			if(tmpCard.isChosen && !tmpCard.isMatched){
-				int cardScore = [card match:@[tmpCard]];
-				if(cardScore > 0){
-					self.score += cardScore;
-					tmpCard.matched = YES;
-					card.matched = YES;
-				}else{
-					self.score--;
-					tmpCard.chosen = NO;
-				}
-				break;
-			}
-		}
-		card.chosen = YES;
-	
-	}
     
-}
+    if (!card.matched) {
+        if (!card.chosen) {
+            // Play the game
+            NSArray *cardsInPlay = [self.cards objectsAtIndexes:[self.cards indexesOfObjectsPassingTest:isCardInPlay]];
+            
+            // Check for a match if enough cards are flipped
+            if ([cardsInPlay count] == self.numCardsToMatch - 1) {
+                int cardScore = [card match:cardsInPlay];
+                if (cardScore > 0) {
+                    // Cards match
+                    card.matched = YES;
+                    [cardsInPlay enumerateObjectsUsingBlock:^(Card * obj, NSUInteger idx, BOOL *stop) {
+                        obj.matched = YES;
+                    }];
+                    playScore += cardScore * self.weights.matchBonus * ((int)self.numCardsToMatch - 1);
 
+                } else {
+                    // Cards don't match
+                    [cardsInPlay enumerateObjectsUsingBlock:^(Card * obj, NSUInteger idx, BOOL *stop) {
+                        obj.chosen = NO;
+                    }];
+                    if (cardScore < 0) {
+                        playScore += self.weights.mismatchPenalty * -cardScore;
+                    } else {
+                        playScore += self.weights.mismatchPenalty * ((int)self.numCardsToMatch - 1);
+                    }
 
--(void)reset{
-    _deck = [self createDeck];
-    
-    NSUInteger cardNum = [self.cards count];
-    [self.cards removeAllObjects];
-    for(int i = 0; i < cardNum; i++){
-        Card *card = [self.deck drawRandomCard];
-        [self.cards addObject:card];
-    }
-    self.score = 0;
-    
-}
+                }
+            }
+            // Score penalty for flipping a card
+            playScore += self.weights.flipCost;
 
--(BOOL) isGameEnd{
-    NSMutableArray *noMatchedCards = [[NSMutableArray alloc] init];
-    for(Card *tmpCard in self.cards){
-        if(!tmpCard.isMatched){
-            [noMatchedCards addObject:tmpCard];
         }
-    }
-    if([noMatchedCards count] > 2){
-        return NO;
-    }else if([noMatchedCards count] == 2){
-        int tmpScore = [[noMatchedCards firstObject] match:@[[noMatchedCards lastObject]]];
-        if (tmpScore > 0) {
-            return NO;
-        }else{
-            return YES;
-        }
-    
-    }else{
-        return YES;
+
+        card.chosen = !card.chosen;
+        self.score += playScore;
+
     }
 }
+
+- (Card *)cardAtIndex:(NSUInteger)index
+{
+    return (index < [self.cards count])? self.cards[index] : nil;
+}
+
+- (NSString *)lastPlay
+{
+    return [self.plays lastObject];
+}
+
+- (NSArray *)lastPlays
+{
+    return [self.plays copy];
+}
+
 
 
 
